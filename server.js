@@ -44,11 +44,10 @@ passport.use(
         if (existingUser) {
           return done(null, existingUser);
         }
-
+        console.log(profile);
         const newUser = new User({
           email: profile.emails?.[0].value,
-          givenName: profile.name?.givenName,
-          familyName: profile.name?.familyName,
+          name: profile.displayName,
           googleId: profile.id,
           verified: true,
           image: profile.photos?.[0].value,
