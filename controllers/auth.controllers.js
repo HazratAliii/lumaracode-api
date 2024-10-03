@@ -20,7 +20,8 @@ exports.googleAuth = (req, res) => {
       { expiresIn: "5h" }
     );
 
-    res.status(200).json({ token });
+    // res.status(200).json({ token });
+    res.redirect(`${process.env.ORIGIN}/auth/google/callback?token=${token}`);
   } catch (err) {
     console.error("Error in googleAuth function:", err);
     res.status(500).json({ error: "Internal Server Error" });
