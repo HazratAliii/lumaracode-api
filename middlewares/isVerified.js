@@ -1,6 +1,6 @@
-import jwt from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 
-export const isVerified = (req, res, next) => {
+const isVerified = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
@@ -15,3 +15,5 @@ export const isVerified = (req, res, next) => {
     return res.status(403).json({ message: "Invalid or expired token" });
   }
 };
+
+module.exports = isVerified;
