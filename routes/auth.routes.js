@@ -8,6 +8,4 @@ router.get(
   googleAuth
 );
 
-router.get("/test", test);
-
 module.exports = router;
