@@ -7,6 +7,7 @@ router.get(
   passport.authenticate("google", { failureRedirect: "/signin" }),
   googleAuth
 );
+
 router.get("/test", test);
 
 module.exports = router;

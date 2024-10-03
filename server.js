@@ -4,6 +4,10 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const session = require("express-session");
 const authRoutes = require("./routes/auth.routes");
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const User = require("./models/user.model");
+const { isVerified } = require("./middlewares/isVerified");
 
 require("dotenv").config();
 
@@ -23,6 +27,58 @@ app.use(
   })
 );
 
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      // clientID:
+      //   "1010387926548-f94ni7v9588dfd8abu3o9pvubsh92t9n.apps.googleusercontent.com",
+      // clientSecret: "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",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      // callbackURL: "http://localhost:5000/api/v1/auth/google/callback",
+      callbackURL: process.env.GOOGLE_CALLBACK_URL,
+      scope: ["profile", "email"],
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        const existingUser = await User.findOne({
+          email: profile.emails?.[0].value,
+        });
+
+        if (existingUser) {
+          return done(null, existingUser);
+        }
+
+        const newUser = new User({
+          email: profile.emails?.[0].value,
+          givenName: profile.name?.givenName,
+          familyName: profile.name?.familyName,
+          googleId: profile.id,
+          verified: true,
+          image: profile.photos?.[0].value,
+        });
+        console.log("New user ", newUser);
+        await newUser.save();
+        return done(null, newUser);
+      } catch (err) {
+        return done(err, null);
+      }
+    }
+  )
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
+});
 app.get("/", (req, res) => {
   res.json("Hello world");
 });
@@ -31,6 +87,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/api/v1/auth", authRoutes);
+app.get("/api/v1/dashboard");
 
 mongoose
   .connect(process.env.MONGODB_URI)
