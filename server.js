@@ -8,7 +8,7 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("./models/user.model");
 const { isVerified } = require("./middlewares/isVerified");
-
+const dashboardRoutes = require("./routes/dashboard.routes");
 require("dotenv").config();
 
 const port = process.env.PORT || 8000;
@@ -27,10 +27,6 @@ app.use(
     secret: "sdlfksldfjlkjflsjdflksjad",
     resave: false,
     saveUninitialized: false,
-    // cookie: {
-    //   secure: true, // Use 'true' in production (requires HTTPS)
-    //   maxAge: 24 * 60 * 60 * 1000,
-    // },
   })
 );
 
@@ -88,7 +84,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/api/v1/auth", authRoutes);
-app.get("/api/v1/dashboard");
+app.use("/api/v1/dashboard", dashboardRoutes);
 
 mongoose
   .connect(process.env.MONGODB_URI)

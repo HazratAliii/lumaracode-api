@@ -1,8 +1,7 @@
 const jwt = require("jsonwebtoken");
 
-const isVerified = (req, res, next) => {
+exports.isVerified = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
-
   if (!token) {
     return res.status(401).json({ message: "Authentication token missing" });
   }
@@ -16,4 +15,4 @@ const isVerified = (req, res, next) => {
   }
 };
 
-module.exports = isVerified;
+// module.exports = isVerified;

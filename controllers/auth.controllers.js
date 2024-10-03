@@ -15,7 +15,7 @@ exports.googleAuth = (req, res) => {
     console.log("User authenticated:", user);
 
     const token = jwt.sign(
-      { userId: user._id, email: user.email },
+      { userId: user._id, email: user.email, name: user.name },
       process.env.JWT_SECRET,
       { expiresIn: "5h" }
     );
