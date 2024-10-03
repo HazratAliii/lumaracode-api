@@ -21,7 +21,9 @@ exports.googleAuth = (req, res) => {
     );
 
     // res.status(200).json({ token });
-    res.redirect(`${process.env.ORIGIN}/auth/google/callback?token=${token}`);
+    res.redirect(
+      `https://lumaracode-fe.vercel.app/auth/google/callback?token=${token}`
+    );
   } catch (err) {
     console.error("Error in googleAuth function:", err);
     res.status(500).json({ error: "Internal Server Error" });
