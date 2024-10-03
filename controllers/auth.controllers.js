@@ -4,9 +4,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const passport = require("passport");
 const User = require("../models/user.model");
 
-exports.test = (req, res) => {
-  console.log("testing ", process.env.GOOGLE_CLIENT_ID);
-};
+
 
 // exports.googleAuth = (req, res) => {
 //   console.log("INside google auth");
