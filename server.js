@@ -18,7 +18,6 @@ const app = express();
 app.use(
   cors({
     origin: process.env.ORIGIN,
-    // credentials: true,
   })
 );
 app.set("trust proxy", 1);
