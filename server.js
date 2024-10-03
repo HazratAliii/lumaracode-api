@@ -59,7 +59,6 @@ passport.use(
           verified: true,
           image: profile.photos?.[0].value,
         });
-        console.log("New user ", newUser);
         await newUser.save();
         return done(null, newUser);
       } catch (err) {

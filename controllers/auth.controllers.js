@@ -27,5 +27,5 @@ exports.googleAuth = (req, res) => {
   //     path: "/",
   //     maxAge: 5 * 60 * 60 * 1000,
   //   });
-  res.redirect(`/`);
+  res.redirect("http://localhost:5173/dashboard");
 };
