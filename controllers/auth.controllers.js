@@ -7,5 +7,5 @@ exports.googleAuth = (req, res) => {
     process.env.JWT_SECRET,
     { expiresIn: "5h" }
   );
-  redirect(`${process.env.ORIGIN}/dashboard`);
+  redirect("http://localhost:5000/dashboard");
 };
